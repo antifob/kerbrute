@@ -42,7 +42,7 @@ jobs:
       - name: Upload to artifact storage
         uses: actions/upload-artifact@v2
         with:
-          path: kerbrute-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: kerbrute-${{ matrix.goos }}-${{ matrix.goarch }}-*
           if-no-files-found: error
           # only meant for sharing with the publish job
           retention-days: 1
