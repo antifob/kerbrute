@@ -38,7 +38,7 @@ jobs:
 
         run: |
           v=$(echo ${GITHUB_REF} | awk -F/ '{print substr($3,2,10);}')
-          go build -ldflags "-X github.com/ropnop/kerbrute/util.GitCommit=${v} -w -s" -o "kerbrute-${GOOS}-${GOARCH}"
+          go build -ldflags "-X github.com/ropnop/kerbrute/util.GitCommit=${v} -w -s" -o "kerbrute-${GOOS}-${GOARCH}-${v}"
       - name: Upload to artifact storage
         uses: actions/upload-artifact@v2
         with:
