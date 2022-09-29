@@ -58,7 +58,8 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ env.GITHUB_SHA }}"
+          automatic_release_tag: "latest"
+          title: "${{ env.GITHUB_SHA }}"
           prerelease: false
           files: |
             kerbrute-*
