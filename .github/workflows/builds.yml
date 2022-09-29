@@ -37,7 +37,7 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
 
         run: |
-          v=$(echo ${GITHUB_REF} | awk -F/ '{print substr($3,2,10);}')
+          v=$(git rev-parse --short "${GITHUB_SHA}")
           go build -ldflags "-X github.com/ropnop/kerbrute/util.GitCommit=${v} -w -s" -o "kerbrute-${GOOS}-${GOARCH}-${v}"
       - name: Upload to artifact storage
         uses: actions/upload-artifact@v2
