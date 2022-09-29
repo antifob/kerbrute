@@ -38,7 +38,7 @@ jobs:
 
         run: |
           v=$(git rev-parse --short "${GITHUB_SHA}")
-          go build -ldflags "-X github.com/ropnop/kerbrute/util.GitCommit=${v} -w -s" -o "kerbrute-${GOOS}-${GOARCH}-${v}"
+          go build -ldflags "-X github.com/ropnop/kerbrute/util.GitCommit=${v} -w -s" -o "kerbrute-${GOOS}-${GOARCH}"
       - name: Upload to artifact storage
         uses: actions/upload-artifact@v2
         with:
@@ -58,8 +58,8 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
+          automatic_release_tag: "${{ env.GITHUB_SHA }}"
+          prerelease: false
           files: |
             kerbrute-*
         id: "automatic_releases"
