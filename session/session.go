@@ -70,8 +70,7 @@ func NewKerbruteSession(options KerbruteSessionOptions) (k KerbruteSession, err 
 		}
 	}
 
-	realm := strings.ToUpper(options.Domain)
-	configstring := buildKrb5Template(realm, options.DomainController)
+	configstring := buildKrb5Template(options.Domain, options.DomainController)
 	Config, err := kconfig.NewFromString(configstring)
 	if options.Downgrade {
 		Config.LibDefaults.DefaultTktEnctypeIDs = []int32{23} // downgrade to arcfour-hmac-md5 for crackable AS-REPs
@@ -80,13 +79,13 @@ func NewKerbruteSession(options KerbruteSessionOptions) (k KerbruteSession, err 
 	if err != nil {
 		panic(err)
 	}
-	_, kdcs, err := Config.GetKDCs(realm, false)
+	_, kdcs, err := Config.GetKDCs(options.Domain, false)
 	if err != nil {
-		err = fmt.Errorf("Couldn't find any KDCs for realm %s. Please specify a Domain Controller", realm)
+		err = fmt.Errorf("Couldn't find any KDCs for realm %s. Please specify a Domain Controller", options.Domain)
 	}
 	k = KerbruteSession{
 		Domain:       options.Domain,
-		Realm:        realm,
+		Realm:        options.Domain,
 		Kdcs:         kdcs,
 		ConfigString: configstring,
 		Config:       Config,
